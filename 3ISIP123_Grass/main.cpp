@@ -1,6 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <iomanip>
+#include <limits>
+#include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -22,6 +27,20 @@ void bubbleSort(vector<Expense>& expenses) {
 			}
 		}
 	}
+}
+
+void displayData(const vector<Expense>& expenses) {
+	cout << "\n--- Все ваши траты ---" << endl;
+	if (expenses.empty()) {
+		cout << "Нет записанных трат." << endl;
+		return;
+	}
+	cout << left << setw(40) << "Название услуги/товара" << " | " << right << setw(10) << "Сумма (руб.)" << endl;
+	cout << string(53, '-') << endl;
+	for (const auto& exp : expenses) {
+		cout << left << setw(40) << exp.description << " | " << right << setw(10) << fixed << setprecision(2) << exp.amount << endl;
+	}
+	cout << "-----------------------\n" << endl;
 }
 
 int main() {
