@@ -129,6 +129,38 @@ void convertCurrency(vector<Expense>& expenses) {
 	cout << "-----------------------\n" << endl;
 }
 
+void searchByName(const vector<Expense>& expenses) {
+	cout << "\n--- Поиск по названию ---" << endl;
+	if (expenses.empty()) {
+		cout << "Нет записанных трат для поиска." << endl;
+		return;
+	}
+
+	string searchTerm;
+	cout << "Введите часть названия услуги или товара для поиска: ";
+	getline(cin, searchTerm);
+
+	vector<Expense> foundExpenses;
+	for (const auto& exp : expenses) {
+		if (exp.description.find(searchTerm) != string::npos) {
+			foundExpenses.push_back(exp);
+		}
+	}
+
+	if (foundExpenses.empty()) {
+		cout << "Ничего не найдено по вашему запросу." << endl;
+	}
+	else {
+		cout << "\n--- Найденные траты ---" << endl;
+		cout << left << setw(40) << "Название услуги/товара" << " | " << right << setw(10) << "Сумма (руб.)" << endl;
+		cout << string(53, '-') << endl;
+		for (const auto& exp : foundExpenses) {
+			cout << left << setw(40) << exp.description << " | " << right << setw(10) << fixed << setprecision(2) << exp.amount << endl;
+		}
+	}
+	cout << "-----------------------\n" << endl;
+}
+
 
 int main() {
 	int numOperations;
