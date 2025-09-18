@@ -43,6 +43,37 @@ void displayData(const vector<Expense>& expenses) {
 	cout << "-----------------------\n" << endl;
 }
 
+void displayStatistics(const vector<Expense>& expenses) {
+	cout << "\n--- Статистика трат ---" << endl;
+	if (expenses.empty()) {
+		cout << "Нет записанных трат для статистики." << endl;
+		return;
+	}
+
+	double sum = 0.0;
+	double minAmount = numeric_limits<double>::max();
+	double maxAmount = numeric_limits<double>::min();
+
+	for (const auto& exp : expenses) {
+		sum += exp.amount;
+		if (exp.amount < minAmount) {
+			minAmount = exp.amount;
+		}
+		if (exp.amount > maxAmount) {
+			maxAmount = exp.amount;
+		}
+	}
+
+	double average = sum / expenses.size();
+
+	cout << "Общая сумма потраченных средств: " << fixed << setprecision(2) << sum << " руб." << endl;
+	cout << "Средняя сумма одной траты:     " << fixed << setprecision(2) << average << " руб." << endl;
+	cout << "Минимальная сумма траты:       " << fixed << setprecision(2) << minAmount << " руб." << endl;
+	cout << "Максимальная сумма траты:      " << fixed << setprecision(2) << maxAmount << " руб." << endl;
+	cout << "-----------------------\n" << endl;
+}
+
+
 int main() {
 	int numOperations;
 
