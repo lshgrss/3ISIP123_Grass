@@ -73,6 +73,62 @@ void displayStatistics(const vector<Expense>& expenses) {
 	cout << "-----------------------\n" << endl;
 }
 
+void convertCurrency(vector<Expense>& expenses) {
+	cout << "\n--- Конвертация валюты ---" << endl;
+	map<string, double> exchangeRates;
+	exchangeRates["USD"] = 90.0; 
+	exchangeRates["EUR"] = 98.0; 
+	exchangeRates["GBP"] = 115.0; 
+
+	cout << "Доступные валюты для конвертации:" << endl;
+	int i = 1;
+	for (const auto& pair : exchangeRates) {
+		cout << i++ << ". " << pair.first << " (1 " << pair.first << " = " << fixed << setprecision(2) << pair.second << " руб.)" << endl;
+	}
+
+	int choice;
+	cout << "Выберите валюту для конвертации (введите номер): ";
+	while (!(cin >> choice) || choice < 1 || choice > exchangeRates.size()) {
+		cout << "Неверный ввод. Пожалуйста, выберите номер из списка: ";
+		cin.clear();
+		clearInputBuffer();
+	}
+	clearInputBuffer();
+
+	string selectedCurrency;
+	i = 1;
+	for (const auto& pair : exchangeRates) {
+		if (i == choice) {
+			selectedCurrency = pair.first;
+			break;
+		}
+		i++;
+	}
+	double rate = exchangeRates[selectedCurrency];
+
+	cout << "Конвертировать все траты из " << selectedCurrency << " в рубли по курсу " << rate << "?" << endl;
+	cout << "1. Да" << endl;
+	cout << "2. Нет" << endl;
+	cout << "Ваш выбор: ";
+	while (!(cin >> choice) || (choice != 1 && choice != 2)) {
+		cout << "Неверный ввод. Пожалуйста, выберите 1 или 2: ";
+		cin.clear();
+		clearInputBuffer();
+	}
+	clearInputBuffer();
+
+	if (choice == 1) {
+		for (auto& exp : expenses) {
+			exp.amount *= rate;
+		}
+		cout << "Все траты успешно конвертированы в рубли." << endl;
+	}
+	else {
+		cout << "Конвертация отменена." << endl;
+	}
+	cout << "-----------------------\n" << endl;
+}
+
 
 int main() {
 	int numOperations;
